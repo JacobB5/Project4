@@ -101,9 +101,15 @@ bool getDataBetweenTags(char *pDataToSearchThru, vector<string> &myVector)
 
 bool findTag(char *pTagToLookFor, char *&pStart, char *&pEnd)
 {
-
+	return true;
 }
 
+void cleanup(){
+	pStartTag=0;
+	pEndTag=0;
+	areTagsSet=false;
+	lastError=ERROR_NO_ERROR;
+}
 
 
 
