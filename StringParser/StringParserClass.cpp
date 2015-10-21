@@ -48,6 +48,11 @@ bool StringParserClass::setTags(const char *pStartTag, const char *pEndTag)
 
 bool getDataBetweenTags(char *pDataToSearchThru, vector<string> &myVector)
 {
+	bool endSearch=false;
+	string result="";
+	char *start=pDataToSearchThru;
+	char *end;
+	int tagLength=0;
 
 	if (!pDataToSearchThru){
 		lastError = ERROR_DATA_NULL;
@@ -59,8 +64,34 @@ bool getDataBetweenTags(char *pDataToSearchThru, vector<string> &myVector)
 		}
 		else{
 			//DO NOT INCLUDE THE TAGS THEMSELVES
-			// USE findtag to checck
+			// USE strstr to check
+			while (!endSearch){
+				tagLength=strlen(pStartTag);
+				start=strstr(start, pStartTag);
+				if (!start){
+					endSearch=true;
+					return false;
+				}
+				else{
+					start=start+(tagLength*sizeof(char));
+					end=strstr(start, pEndTag);
+					if(!end){
+						endSearch=true;
+						return false;
+					}
+					else{
+						std::string target="";
+						for (int i=0; start!=end;i++){
+							target+=*start;
+							start+=sizeof(char);
+						}
+						myVector.push_back(target);
+						end=0;
+					}
+				}
 
+			}
+			return true;
 
 		}
 	}
