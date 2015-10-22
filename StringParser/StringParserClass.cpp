@@ -21,6 +21,11 @@ namespace KP_StringParserClass
 		areTagsSet=false;
 		lastError=ERROR_NO_ERROR;
 	}
+	
+	StringParserClass::~StringParserClass(void)
+	{
+
+	}
 
 	int StringParserClass::getLastError()
 	{

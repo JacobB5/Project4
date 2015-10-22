@@ -11,6 +11,10 @@ namespace KP_FileReaderClass{
 		filecontents="";
 	}
 
+	FileReader::~FileReader() {
+		
+	}
+
 
 	int FileReader::getFileContents(const std::string filename, std::string &contents)
 	{
