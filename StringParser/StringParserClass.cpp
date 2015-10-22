@@ -76,7 +76,6 @@ namespace KP_StringParserClass
 				//This function will never return true...
 				// I think if !start then we should just break from the loop then return true
 				endSearch = true;
-				return false;
 			}
 			start = start + (startTagLength*sizeof(char));
 			end = strstr(start, pEndTag);
@@ -98,6 +97,9 @@ namespace KP_StringParserClass
 			}
 
 
+		}
+		if (myVector.size() == 0){
+			return false;
 		}
 		return true;
 	}
