@@ -51,7 +51,7 @@ namespace KP_StringParserClass
 		return areTagsSet;
 	}
 
-	bool getDataBetweenTags(char *pDataToSearchThru, vector<string> &myVector)
+	bool StringParserClass::getDataBetweenTags(char *pDataToSearchThru, vector<string> &myVector)
 	{
 		bool endSearch=false;
 		string result="";
