@@ -16,12 +16,12 @@ namespace KP_StringParserClass
 
 	StringParserClass::StringParserClass(void)
 	{
-		pStartTag=0;
-		pEndTag=0;
-		areTagsSet=false;
-		lastError=ERROR_NO_ERROR;
+		pStartTag = 0;
+		pEndTag = 0;
+		areTagsSet = false;
+		lastError = ERROR_NO_ERROR;
 	}
-	
+
 	StringParserClass::~StringParserClass(void)
 	{
 
@@ -29,18 +29,18 @@ namespace KP_StringParserClass
 
 	int StringParserClass::getLastError()
 	{
-		int tempError=lastError;
-		lastError=ERROR_NO_ERROR;
+		int tempError = lastError;
+		lastError = ERROR_NO_ERROR;
 		return tempError;
 	}
 
 	bool StringParserClass::setTags(const char *pStartTag, const char *pEndTag)
 	{
-		if ((pStartTag!=NULL) && (pEndTag!=NULL))
-		{		
-			StringParserClass::pStartTag = (char*) pStartTag;
-			StringParserClass::pEndTag = (char*) pEndTag;
-			areTagsSet=true;
+		if ((pStartTag != NULL) && (pEndTag != NULL))
+		{
+			StringParserClass::pStartTag = (char*)pStartTag;
+			StringParserClass::pEndTag = (char*)pEndTag;
+			areTagsSet = true;
 		}
 		else
 		{
@@ -53,55 +53,53 @@ namespace KP_StringParserClass
 
 	bool StringParserClass::getDataBetweenTags(char *pDataToSearchThru, vector<string> &myVector)
 	{
-		bool endSearch=false;
-		string result="";
-		char *start=pDataToSearchThru;
+		bool endSearch = false;
+		string result = "";
+		char *start = pDataToSearchThru;
 		char *end;
-		int tagLength=0;
+		int startTagLength = 0;
 
-		if (!pDataToSearchThru){
+		if (!pDataToSearchThru) {
 			lastError = ERROR_DATA_NULL;
 			return false;
 		}
-		else{
-			if(!areTagsSet){
+
+		if (!areTagsSet) {
+			return false;
+		}
+		//DO NOT INCLUDE THE TAGS THEMSELVES
+		// USE strstr to check
+		while (!endSearch) {
+			startTagLength = strlen(pStartTag);
+			start = strstr(start, pStartTag);
+			if (!start) {
+				//This function will never return true...
+				// I think if !start then we should just break from the loop then return true
+				endSearch = true;
 				return false;
 			}
-			else{
-				//DO NOT INCLUDE THE TAGS THEMSELVES
-				// USE strstr to check
-				while (!endSearch){
-					tagLength=strlen(pStartTag);
-					start=strstr(start, pStartTag);
-					if (!start){
-						endSearch=true;
-						return false;
-					}
-					else{
-						start=start+(tagLength*sizeof(char));
-						end=strstr(start, pEndTag);
-						if(!end){
-							endSearch=true;
-							return false;
-						}
-						else{
-							std::string target="";
-							for (int i=0; start!=end;i++){
-								target+=*start;
-								start+=sizeof(char);
-							}
-							myVector.push_back(target);
-							end=0;
-						}
-					}
-
-				}
-				return true;
-
+			start = start + (startTagLength*sizeof(char));
+			end = strstr(start, pEndTag);
+			if (!end) {
+				endSearch = true;
+				return false;
 			}
+			else {
+				//The following two lines of code should probably be able to replace the for loop
+				//std::string target = std::string(start, end-start);
+				//start = end + strlen(pEndTag);
+				std::string target = "";
+				for (int i = 0; start != end; i++) {
+					target += *start;
+					start += sizeof(char);
+				}
+				myVector.push_back(target);
+				end = 0;
+			}
+
+
 		}
-
-
+		return true;
 	}
 
 	//bool findTag(char *pTagToLookFor, char *&pStart, char *&pEnd)
@@ -119,53 +117,53 @@ namespace KP_StringParserClass
 
 
 	//Example
-	void convertStringtoCharPointer(){
+	void convertStringtoCharPointer() {
 		//Shows how to convert a string to a char pointer
-		std::string myString="12345";
+		std::string myString = "12345";
 		int len = myString.length();
-		int lenPlusNull=len+1; //add one for terminating null
-		char *p=new char[lenPlusNull];
+		int lenPlusNull = len + 1; //add one for terminating null
+		char *p = new char[lenPlusNull];
 		//set memory aside and write to 0's which also places a terminating null
-		memset(p,0,lenPlusNull*sizeof(char));
+		memset(p, 0, lenPlusNull*sizeof(char));
 
 		//Copy from the string to p, 5 chars
-		myString.copy(p,len,0);
+		myString.copy(p, len, 0);
 		//p now has a copy of the string in myString
 
 		//Iterate over the pointer and set all values to 'a'
-		for(int i=0;i<len;i++)
-			*(p+1)='a';
+		for (int i = 0; i < len; i++)
+			*(p + 1) = 'a';
 
-		if(p){
+		if (p) {
 			delete[] p;
-			p=0;
+			p = 0;
 		}
 	}
 
 
 	//A simple search for a single item
-	void charBasedStringComparison(char* p){
+	void charBasedStringComparison(char* p) {
 
-		if(!p){
+		if (!p) {
 			return;
 		}
 
 		//how long in tag
-		int iten_P=strlen(p);
+		int iten_P = strlen(p);
 
 		char myString[] = "01234456";
 		char *pinc = &myString[0];
 
-		int iLen_MyString = strlen(pinc)/sizeof(char);
+		int iLen_MyString = strlen(pinc) / sizeof(char);
 
-		int compare=SUCCEEDED;
+		int compare = SUCCEEDED;
 
-		for(int ctr =0;ctr<iLen_MyString;ctr++){
-			if (*p == *(pinc + ctr)){
+		for (int ctr = 0; ctr < iLen_MyString; ctr++) {
+			if (*p == *(pinc + ctr)) {
 				//Compare function start at p, go through to (pinc+ctr), but stop after iLen_p chars)
-				compare = memcmp(p,(pinc+ctr),iten_P);
-				if (compare == SUCCEEDED){
-					std::cout<<"Found it"<<endl;
+				compare = memcmp(p, (pinc + ctr), iten_P);
+				if (compare == SUCCEEDED) {
+					std::cout << "Found it" << endl;
 					return;
 				}
 			}
