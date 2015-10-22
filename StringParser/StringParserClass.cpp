@@ -61,10 +61,12 @@ namespace KP_StringParserClass
 
 		if (!pDataToSearchThru) {
 			lastError = ERROR_DATA_NULL;
+			std::cout<<"No data to search through for tags"<<std::endl;
 			return false;
 		}
 
 		if (!areTagsSet) {
+			std::cout<<"Tags are not set"<<std::endl;
 			return false;
 		}
 		//DO NOT INCLUDE THE TAGS THEMSELVES
@@ -73,6 +75,7 @@ namespace KP_StringParserClass
 			startTagLength = strlen(pStartTag);
 			start = strstr(start, pStartTag);
 			if (!start) {
+				std::cout<<"Start was set to null in get data between tags"<<std::endl;
 				//This function will never return true...
 				// I think if !start then we should just break from the loop then return true
 				endSearch = true;

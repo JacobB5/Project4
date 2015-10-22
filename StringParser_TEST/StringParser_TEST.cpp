@@ -17,7 +17,7 @@
 #include "..\Include\Debug_Help.h"
 #include "..\Include\stringparserclass.h"
 
-void convertStringtoCharPointer(std::string myString, char* myPointer);
+void convertStringtoCharPointer(std::string myString, char* &myPointer);
 
 void outputvectorrow(std::string i){
 	std::cout<<i<<std::endl;
@@ -33,7 +33,8 @@ int main(){
 	//TODO open file, if not there ask for a different file or exit
 	KP_FileReaderClass::FileReader reader;
 	std::string contents="";
-	int outcome = reader.getFileContents(TEST_FILE_NAME, contents);
+	int outcome;
+	outcome = reader.getFileContents(TEST_FILE_NAME, contents);
 
 	if (outcome==SUCCEEDED){
 		//got file data, this is a bogus time and memory wasting step
@@ -48,6 +49,7 @@ int main(){
 		KP_StringParserClass::StringParserClass myParser;
 
 		//TODO set the tags
+		myParser.setTags(START_TAG, END_TAG);
 
 		//TODO pull out the data
 		myParser.getDataBetweenTags(myPointer, taggedText);
@@ -61,7 +63,7 @@ int main(){
 	}
 }
 
-void convertStringtoCharPointer(std::string myString, char* myPointer){
+void convertStringtoCharPointer(std::string myString, char* &myPointer){
 	//Shows how to convert a string to a char pointer
 
 	int len = myString.length();
