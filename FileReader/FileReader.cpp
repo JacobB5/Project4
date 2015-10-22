@@ -27,7 +27,7 @@ namespace KP_FileReaderClass {
 
 	int FileReader::ReadTheWholeFile(const std::string &filename)
 	{
-		ifstream myInputFile(filename);
+		ifstream myInputFile;
 
 		if (myInputFile.good())
 		{
@@ -36,8 +36,7 @@ namespace KP_FileReaderClass {
 			if (myInputFile.is_open()) {
 				string line;
 
-				while (!myInputFile.eof()) {
-					getline(myInputFile, line);
+				while (getline(myInputFile, line)) {
 					filecontents += line;
 				}
 				myInputFile.close();
