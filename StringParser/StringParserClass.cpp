@@ -14,6 +14,9 @@ namespace KP_StringParserClass
 	bool	areTagsSet;
 	int		lastError;
 
+	/*
+	Constructor
+	*/
 	StringParserClass::StringParserClass(void)
 	{
 		pStartTag = 0;
@@ -22,11 +25,17 @@ namespace KP_StringParserClass
 		lastError = ERROR_NO_ERROR;
 	}
 
+	/*
+	Destructor
+	*/
 	StringParserClass::~StringParserClass(void)
 	{
 
 	}
 
+	/*
+	return the last error from the class and clear it.
+	*/
 	int StringParserClass::getLastError()
 	{
 		int tempError = lastError;
@@ -34,6 +43,10 @@ namespace KP_StringParserClass
 		return tempError;
 	}
 
+	/*
+	Sets the start and end tags if they are valid pointers
+	if the tags are bad, sets lastError
+	*/
 	bool StringParserClass::setTags(const char *pStartTag, const char *pEndTag)
 	{
 		if ((pStartTag != NULL) && (pEndTag != NULL))
@@ -51,6 +64,9 @@ namespace KP_StringParserClass
 		return areTagsSet;
 	}
 
+	/*
+	gets the data from the string at the char pointer. Puts the data in myVector
+	*/
 	bool StringParserClass::getDataBetweenTags(char *pDataToSearchThru, vector<string> &myVector)
 	{
 		bool endSearch = false;
@@ -59,38 +75,49 @@ namespace KP_StringParserClass
 		char *end;
 		int startTagLength = 0;
 
+		//Check for null pointer
 		if (!pDataToSearchThru) {
 			lastError = ERROR_DATA_NULL;
-			std::cout<<"No data to search through for tags"<<std::endl;
+			std::cout << "No data to search through for tags" << std::endl;
 			return false;
 		}
 
+		//Make sure we have vaild tags
 		if (!areTagsSet) {
-			std::cout<<"Tags are not set"<<std::endl;
+			lastError = ERROR_TAGS_NULL;
+			std::cout << "Tags are not set" << std::endl;
 			return false;
 		}
 		//DO NOT INCLUDE THE TAGS THEMSELVES
 		// USE strstr to check
+		// Until we are ready to stop searching
+		// In actuality we loop until break.
 		while (!endSearch) {
 			startTagLength = strlen(pStartTag);
 			start = strstr(start, pStartTag);
+			//start is now set to the start of startTag if found, otherwise null
 			if (!start) {
-				std::cout<<"Start was set to null in get data between tags"<<std::endl;
-				//This function will never return true...
-				// I think if !start then we should just break from the loop then return true
+				//We didn't find the start tag
+				//This happend at the end of the stirng
+				std::cout << "Start was set to null in get data between tags" << std::endl;
 				endSearch = true;
 				break;
 			}
+			//Move the pointer of the start of the string past the start tag
 			start = start + (startTagLength*sizeof(char));
+			//Search for the end tag
 			end = strstr(start, pEndTag);
 			if (!end) {
+				//Found a start tag, but then no end tag.
 				endSearch = true;
-				return false;
+				return false; //This returns false if we find a start tag not followed by an end tag.
 			}
 			else {
-				//The following two lines of code should probably be able to replace the for loop
-				//std::string target = std::string(start, end-start);
+				//The following two lines of code can replace the for loop if desired
+				//std::string target = std::string(start, end - start);
 				//start = end + strlen(pEndTag);
+
+				//Copy the cstring to a std string.
 				std::string target = "";
 				for (int i = 0; start != end; i++) {
 					target += *start;
@@ -102,7 +129,8 @@ namespace KP_StringParserClass
 
 
 		}
-		if (myVector.size() == 0){
+		if (myVector.size() == 0) {
+			//Didn't find any tags
 			return false;
 		}
 		return true;
