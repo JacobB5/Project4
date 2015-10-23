@@ -1,5 +1,5 @@
-// Author Jacob Bechtel
 // Author Nigel Armstrong
+// Author Jacob Bechtel
 // Version 23 OCT 2015
 #include <iostream>
 #include <fstream>
