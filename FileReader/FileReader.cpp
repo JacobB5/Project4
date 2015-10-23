@@ -1,3 +1,6 @@
+// Author Jacob Bechtel
+// Author Nigel Armstrong
+// Version 23 OCT 2015
 #include <iostream>
 #include <fstream>
 #include "..\Include\FileReader.h"
