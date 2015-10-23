@@ -1,6 +1,10 @@
-// Author Nigel Armstrong
-// Author Jacob Bechtel
-// Version 23 OCT 2015
+//============================================================================
+// Name        : FileReader.cpp
+// Author      : Nigel Armstrong and Jacob Bechtel
+// Version     : 21 October 2015 0.01a
+// Copyright   : Creative Commons, non-commercial, attribution
+// Description : File reader
+//============================================================================
 #include <iostream>
 #include <fstream>
 #include "..\Include\FileReader.h"
