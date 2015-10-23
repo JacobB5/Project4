@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : Proj4_Test.cpp
-// Author      : Jacob Bechtel
+// Author      : Nigel Armstrong and Jacob Bechtel
 // Version     : 21 October 2015 0.01a
 // Copyright   : Creative Commons, non-commercial, attribution
 // Description : Painful reader
