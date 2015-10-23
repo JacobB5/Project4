@@ -1,3 +1,6 @@
+// Author Jacob Bechtel
+// Author Nigel Armstrong
+// Version 23 OCT 2015
 
 #include <string>
 #include "..\Include\stringparserClass.h"
