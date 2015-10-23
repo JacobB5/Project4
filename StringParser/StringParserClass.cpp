@@ -1,6 +1,10 @@
-// Author Nigel Armstrong
-// Author Jacob Bechtel
-// Version 23 OCT 2015
+//============================================================================
+// Name        : StringParser.cpp
+// Author      : Nigel Armstrong and Jacob Bechtel
+// Version     : 21 October 2015 0.01a
+// Copyright   : Creative Commons, non-commercial, attribution
+// Description : String Reader, parses string based on tag values
+//============================================================================
 
 #include <string>
 #include "..\Include\stringparserClass.h"
