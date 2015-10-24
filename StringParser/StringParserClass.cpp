@@ -85,17 +85,21 @@ namespace KP_StringParserClass
 		//Check for null pointer
 		if (!pDataToSearchThru) {
 			lastError = ERROR_DATA_NULL;
+			#ifdef JAKE_DEBUG
 			std::cout << "No data to search through for tags" << std::endl;
+			#endif
 			return false;
 		}
 
 		//Make sure we have vaild tags
 		if (!areTagsSet) {
 			lastError = ERROR_TAGS_NULL;
+			#ifdef JAKE_DEBUG
 			std::cout << "Tags are not set" << std::endl;
+			#endif
 			return false;
 		}
-		//DO NOT INCLUDE THE TAGS THEMSELVES
+		// DO NOT INCLUDE THE TAGS THEMSELVES
 		// USE strstr to check
 		// Until we are ready to stop searching
 		// In actuality we loop until break.
@@ -106,7 +110,9 @@ namespace KP_StringParserClass
 			if (!start) {
 				//We didn't find the start tag
 				//This happend at the end of the stirng
+				#ifdef JAKE_DEBUG
 				std::cout << "Start was set to null in get data between tags" << std::endl;
+				#endif
 				endSearch = true;
 				break;
 			}
@@ -120,16 +126,19 @@ namespace KP_StringParserClass
 				return false; //This returns false if we find a start tag not followed by an end tag.
 			}
 			else {
-				//The following two lines of code can replace the for loop if desired
-				//std::string target = std::string(start, end - start);
-				//start = end + strlen(pEndTag);
-
+				// ### HEY NIGEL, swap made, thanks for the heads up
+				//Original for loop replaced by shorter implementation
+				//std::string target = "";
+				//for (int i = 0; start != end; i++) {
+				//	target += *start;
+				//	start += sizeof(char);
+				//}
+				
 				//Copy the cstring to a std string.
-				std::string target = "";
-				for (int i = 0; start != end; i++) {
-					target += *start;
-					start += sizeof(char);
-				}
+				std::string target = std::string(start, end - start);
+				start = end + strlen(pEndTag);
+				
+				//Add the string to the vector
 				myVector.push_back(target);
 				end = 0;
 			}
@@ -137,7 +146,7 @@ namespace KP_StringParserClass
 
 		}
 		if (myVector.size() == 0) {
-			//Didn't find any tags
+			//Didn't find any data between set tags
 			return false;
 		}
 		return true;
@@ -155,61 +164,58 @@ namespace KP_StringParserClass
 	//	lastError=ERROR_NO_ERROR;
 	//}
 
-
-
 	//Example
-	void convertStringtoCharPointer() {
-		//Shows how to convert a string to a char pointer
-		std::string myString = "12345";
-		int len = myString.length();
-		int lenPlusNull = len + 1; //add one for terminating null
-		char *p = new char[lenPlusNull];
-		//set memory aside and write to 0's which also places a terminating null
-		memset(p, 0, lenPlusNull*sizeof(char));
+	//void convertStringtoCharPointer() {
+	//	//Shows how to convert a string to a char pointer
+	//	std::string myString = "12345";
+	//	int len = myString.length();
+	//	int lenPlusNull = len + 1; //add one for terminating null
+	//	char *p = new char[lenPlusNull];
+	//	//set memory aside and write to 0's which also places a terminating null
+	//	memset(p, 0, lenPlusNull*sizeof(char));
+	//	//Copy from the string to p, 5 chars
+	//	myString.copy(p, len, 0);
+	//	//p now has a copy of the string in myString
 
-		//Copy from the string to p, 5 chars
-		myString.copy(p, len, 0);
-		//p now has a copy of the string in myString
+	//	//Iterate over the pointer and set all values to 'a'
+	//	for (int i = 0; i < len; i++)
+	//		*(p + 1) = 'a';
 
-		//Iterate over the pointer and set all values to 'a'
-		for (int i = 0; i < len; i++)
-			*(p + 1) = 'a';
-
-		if (p) {
-			delete[] p;
-			p = 0;
-		}
-	}
+	//	if (p) {
+	//		delete[] p;
+	//		p = 0;
+	//	}
+	//}
 
 
 	//A simple search for a single item
-	void charBasedStringComparison(char* p) {
+	//void charBasedStringComparison(char* p) {
 
-		if (!p) {
-			return;
-		}
+	//	if (!p) {
+	//		return;
+	//	}
 
-		//how long in tag
-		int iten_P = strlen(p);
+	//	//how long in tag
+	//	int iten_P = strlen(p);
 
-		char myString[] = "01234456";
-		char *pinc = &myString[0];
+	//	char myString[] = "01234456";
+	//	char *pinc = &myString[0];
 
-		int iLen_MyString = strlen(pinc) / sizeof(char);
+	//	int iLen_MyString = strlen(pinc) / sizeof(char);
 
-		int compare = SUCCEEDED;
+	//	int compare = SUCCEEDED;
 
-		for (int ctr = 0; ctr < iLen_MyString; ctr++) {
-			if (*p == *(pinc + ctr)) {
-				//Compare function start at p, go through to (pinc+ctr), but stop after iLen_p chars)
-				compare = memcmp(p, (pinc + ctr), iten_P);
-				if (compare == SUCCEEDED) {
-					std::cout << "Found it" << endl;
-					return;
-				}
-			}
+	//	for (int ctr = 0; ctr < iLen_MyString; ctr++) {
+	//		if (*p == *(pinc + ctr)) {
+	//			//Compare function start at p, go through to (pinc+ctr), but stop after iLen_p chars)
+	//			compare = memcmp(p, (pinc + ctr), iten_P);
+	//			if (compare == SUCCEEDED) {
+	//				std::cout << "Found it" << endl;
+	//				return;
+	//			}
+	//		}
 
-		}
-	}
+	//	}
+	//}
 
 }
