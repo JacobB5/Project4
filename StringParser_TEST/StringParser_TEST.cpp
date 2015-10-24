@@ -21,7 +21,6 @@ void convertStringtoCharPointer(std::string myString, char* &myPointer);
 
 void outputvectorrow(std::string i) {
 	std::cout << i << std::endl;
-
 }
 
 void foreach(std::vector<std::string> myVector) {
@@ -98,6 +97,7 @@ void convertStringtoCharPointer(std::string myString, char* &myPointer) {
 	myString.copy(myPointer, len, 0);
 	//p now has a copy of the string in myString
 
+	// Yeah lets not do this since we actually need the data :-)
 	////Iterate over the pointer and set all values to 'a'
 	//for(int i=0;i<len;i++)
 	//	*(p+1)='a';
