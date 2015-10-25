@@ -81,6 +81,7 @@ namespace KP_StringParserClass
 		char *start = pDataToSearchThru;
 		char *end;
 		int startTagLength = 0;
+		bool hasFoundAtLeastOneItem = false;
 
 		//Check for null pointer
 		if (!pDataToSearchThru) {
@@ -141,12 +142,13 @@ namespace KP_StringParserClass
 				//Add the string to the vector
 				myVector.push_back(target);
 				end = 0;
+				hasFoundAtLeastOneItem = true;
 			}
 
 
 		}
-		if (myVector.size() == 0) {
-			//Didn't find any data between set tags
+		if (!hasFoundAtLeastOneItem) {
+			//Didn't find at least one item in the string between the given tags
 			return false;
 		}
 		return true;
